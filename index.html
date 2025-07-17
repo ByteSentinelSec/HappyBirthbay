@@ -2,7 +2,7 @@
 <html lang="el">
 <head>
   <meta charset="UTF-8" />
-  <title>Χρόνια Πολλά Φωτεινή - Ημέρα Γιορτής και Αγάπης</title>
+  <title>Χρόνια Πολλά Φωτεινή</title>
   <style>
     body {
       background: radial-gradient(circle, #ffe6f0 0%, #ffb3cc 100%);
@@ -69,6 +69,31 @@
       font-style: italic;
       letter-spacing: 0.8px;
     }
+    .calendar {
+      margin: 0 auto 60px;
+      max-width: 750px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 18px;
+    }
+    .day-box {
+      flex: 0 1 calc(45% - 20px);
+      background-color: #fff0f6;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 18px #ffb2d9;
+      font-size: 20px;
+      color: #a3004e;
+      line-height: 1.4;
+      cursor: default;
+      transition: transform 0.35s ease;
+      user-select: none;
+    }
+    .day-box:hover {
+      transform: scale(1.07);
+      box-shadow: 0 0 30px #ff8ac2;
+    }
     button#openGiftBtn {
       background: gray;
       border: none;
@@ -90,6 +115,18 @@
       pointer-events: auto;
       box-shadow: 0 5px 18px #ff66b3;
     }
+    #giftMessage {
+      font-size: 28px;
+      color: #a3004e;
+      max-width: 720px;
+      margin: 0 auto;
+      line-height: 1.6;
+      letter-spacing: 0.8px;
+      font-style: italic;
+      min-height: 90px;
+      user-select: none;
+      white-space: pre-wrap;
+    }
     .heart {
       position: fixed;
       bottom: -55px;
@@ -97,7 +134,7 @@
       height: 22px;
       background-color: #ff3399;
       transform: rotate(45deg);
-      animation: floatUp 6.5s linear forwards;
+      animation-timing-function: linear;
       opacity: 0.85;
       z-index: 9999;
     }
@@ -112,8 +149,12 @@
     }
     .heart::before { top: -11px; left: 0; }
     .heart::after { left: 11px; top: 0; }
-    @keyframes floatUp {
-      0% { transform: translateY(0) rotate(45deg); opacity: 0.85; }
+    @keyframes floatUpSlow {
+      0% { transform: translateY(0) rotate(45deg); opacity: 0.5; }
+      100% { transform: translateY(-90vh) rotate(45deg); opacity: 0; }
+    }
+    @keyframes floatUpFast {
+      0% { transform: translateY(0) rotate(45deg); opacity: 1; }
       100% { transform: translateY(-110vh) rotate(45deg); opacity: 0; }
     }
     .firework {
@@ -123,12 +164,53 @@
       background: gold;
       border-radius: 50%;
       animation: explode 0.8s ease-out forwards;
+      pointer-events: none;
+      z-index: 10000;
     }
     @keyframes explode {
       to {
         transform: scale(3);
         opacity: 0;
       }
+    }
+    #loveLetter {
+      background: #fff0f6;
+      border-radius: 18px;
+      padding: 30px;
+      margin: 30px auto;
+      max-width: 720px;
+      font-size: 20px;
+      line-height: 1.7;
+      color: #a3004e;
+      box-shadow: 0 0 18px #ffc0dd;
+      overflow-y: auto;
+      max-height: 300px;
+      text-align: left;
+      user-select: none;
+    }
+    .love-cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 40px;
+    }
+    .love-card {
+      background: #ffe6f2;
+      border-radius: 15px;
+      padding: 20px;
+      width: 200px;
+      font-size: 18px;
+      color: #a3004e;
+      cursor: pointer;
+      box-shadow: 0 0 10px #ff99cc;
+      transition: all 0.4s ease;
+      text-align: center;
+      user-select: none;
+    }
+    .love-card.revealed {
+      background: #ffccdd;
+      transform: scale(1.05);
     }
   </style>
 </head>
@@ -143,6 +225,9 @@
     <div class="celebration">✨ Μια Μεγάλη Γιορτή Αγάπης ✨</div>
     <button id="openGiftBtn">🎁 Άνοιξε το Δώρο σου!</button>
     <div id="typing-text"></div>
+    <div id="loveLetter"></div>
+    <div class="calendar" id="calendar"></div>
+    <div class="love-cards" id="loveCards"></div>
   </div>
   <script>
     const birthdayMonth = 10;
@@ -171,7 +256,7 @@
         document.getElementById("lockedContent").classList.remove("hidden");
         document.getElementById("beforeContent").classList.add("hidden");
         document.getElementById("openGiftBtn").classList.add("active");
-        startFloatingHearts();
+        startFloatingHearts(false);
       }
     }
 
@@ -189,15 +274,38 @@
       typing();
     }
 
-    function startFloatingHearts() {
-      setInterval(() => {
+    function createCalendar() {
+      const calendar = document.getElementById("calendar");
+      calendar.innerHTML = "";
+      const days = [
+        "Η μέρα που γιορτάζουμε εσένα 🎂",
+        "Οι όμορφες στιγμές που μοιραζόμαστε 💕",
+        "Τα όνειρα που χτίζουμε μαζί ✨",
+        "Η αγάπη που μεγαλώνει κάθε χρόνο ❤️",
+        "Ένα νέο κεφάλαιο γεμάτο ευχές και χαρές 🎉"
+      ];
+      days.forEach(text => {
+        const box = document.createElement("div");
+        box.className = "day-box";
+        box.textContent = text;
+        calendar.appendChild(box);
+      });
+    }
+
+    let heartInterval;
+    function startFloatingHearts(intense = false) {
+      if (heartInterval) clearInterval(heartInterval);
+      heartInterval = setInterval(() => {
         const heart = document.createElement("div");
         heart.className = "heart";
         heart.style.left = Math.random() * 100 + "vw";
-        heart.style.animationDuration = 4 + Math.random() * 3 + "s";
+        heart.style.width = heart.style.height = (intense ? 24 : 12) + Math.random() * 12 + "px";
+        heart.style.animationName = intense ? "floatUpFast" : "floatUpSlow";
+        heart.style.animationDuration = (intense ? 3 : 6) + Math.random() * 3 + "s";
+        heart.style.opacity = intense ? 0.95 : 0.5 + Math.random() * 0.4;
         document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 7000);
-      }, 300);
+        setTimeout(() => heart.remove(), 10000);
+      }, intense ? 300 : 800);
     }
 
     function triggerFireworks() {
@@ -212,14 +320,45 @@
       }
     }
 
+    function showLoveLetter() {
+      document.getElementById("loveLetter").innerHTML = `Ένα δώρο γεμάτο καρδιές και αγάπη μόνο για σένα, Φωτεινή! 💖`;
+    }
+
+    function createLoveCards() {
+      const cards = [
+        "Είσαι το πρώτο μου χαμόγελο κάθε μέρα ☀️",
+        "Κάθε σου βλέμμα = καρδιοχτύπι 💓",
+        "Μαζί σου όλα έχουν νόημα 🎯",
+        "Η ομορφότερη γυναίκα του κόσμου 😍",
+        "Σε αγαπάω περισσότερο απ' όσο φαντάζεσαι 💘"
+      ];
+      const container = document.getElementById("loveCards");
+      container.innerHTML = "";
+      cards.forEach(text => {
+        const div = document.createElement("div");
+        div.className = "love-card";
+        div.textContent = "Πάτα να δεις 💌";
+        div.addEventListener("click", () => {
+          div.textContent = text;
+          div.classList.add("revealed");
+        });
+        container.appendChild(div);
+      });
+    }
+
     document.getElementById("openGiftBtn").addEventListener("click", () => {
       const message = "Ένα δώρο γεμάτο καρδιές και αγάπη μόνο για σένα, Φωτεινή! 💖";
       typeGiftMessage(message, "typing-text");
+      showLoveLetter();
+      createCalendar();
+      createLoveCards();
+      startFloatingHearts(true);
       triggerFireworks();
     });
 
-    updateCountdown();
     setInterval(updateCountdown, 1000);
+    updateCountdown();
+    startFloatingHearts(false);
   </script>
 </body>
 </html>
