@@ -162,6 +162,11 @@
   </style>
 </head>
 <body>
+  <audio id="backgroundMusic" autoplay loop muted>
+    <source src="Saynnn.mp3" type="audio/mpeg">
+    Το πρόγραμμα περιήγησής σας δεν υποστηρίζει την αναπαραγωγή ήχου.
+  </audio>
+
   <h1>🎉 Χρόνια Πολλά, Φωτεινή! 🎉</h1>
   <div class="intro" id="beforeContent">
     🌟 Η πιο ξεχωριστή μέρα πλησιάζει...<br>
@@ -248,6 +253,9 @@
     }
 
     document.getElementById("openGiftBtn").addEventListener("click", () => {
+      const music = document.getElementById("backgroundMusic");
+      music.muted = false;
+      music.play();
       const message = "Χρόνια Πολλά, αγάπη μου! 💗\n\nΣε ευχαριστώ για κάθε όμορφη στιγμή.\nΑυτό το δώρο είναι η καρδιά μου σε ψηφιακή μορφή! 💝";
       typeGiftMessage(message, "typing-text");
       createCalendar();
