@@ -1,174 +1,175 @@
 <!DOCTYPE html>
 <html lang="el">
 <head>
-  <meta charset="UTF-8">
-  <title>Γενέθλια Φωτεινής - 365 Μέρες Αγάπης</title>
+  <meta charset="UTF-8" />
+  <title>Χρόνια Πολλά Φωτεινή - Ημέρα Γιορτής και Αγάπης</title>
   <style>
     body {
-      background: radial-gradient(circle, #ffd6e7 0%, #ffc0cb 100%);
-      font-family: Georgia, serif;
+      background: radial-gradient(circle, #ffe6f0 0%, #ffb3cc 100%);
+      font-family: "Palatino Linotype", Palatino, serif;
       text-align: center;
       padding: 30px;
-      color: #b30059;
+      color: #a3004e;
       overflow: hidden;
       position: relative;
     }
     h1 {
-      font-size: 36px;
-      margin-bottom: 10px;
-      letter-spacing: 1.5px;
-      text-shadow: 1px 1px 2px #ff99cc;
+      font-size: 38px;
+      margin-bottom: 15px;
+      letter-spacing: 1.8px;
+      text-shadow: 2px 2px 3px #ff7bb3;
     }
     .countdown {
-      font-size: 22px;
-      margin: 20px auto;
-      background-color: #fff0f5;
-      padding: 15px 20px;
-      border-radius: 15px;
+      font-size: 24px;
+      margin: 25px auto;
+      background-color: #ffe6f2;
+      padding: 20px 25px;
+      border-radius: 18px;
       display: inline-block;
-      box-shadow: 0 0 15px #f69;
+      box-shadow: 0 0 20px #f76cae;
       max-width: 90vw;
-      color: #b30059;
+      color: #a3004e;
     }
     .hidden {
       display: none;
     }
     .intro {
-      font-size: 20px;
-      margin-bottom: 30px;
-      max-width: 700px;
+      font-size: 22px;
+      margin-bottom: 40px;
+      max-width: 720px;
       margin-left: auto;
       margin-right: auto;
-      line-height: 1.6;
-      letter-spacing: 0.7px;
+      line-height: 1.7;
+      letter-spacing: 0.9px;
     }
     #lockedContent {
-      margin-top: 40px;
+      margin-top: 50px;
     }
-    .boom {
-      font-size: 32px;
-      color: #ff1a75;
-      margin: 30px 0 20px;
-      animation: pulse 2s infinite ease-in-out;
-      font-weight: bold;
-      letter-spacing: 2px;
-      text-shadow: 2px 2px 6px #ff4db8;
+    .celebration {
+      font-size: 34px;
+      color: #e60073;
+      margin: 40px 0 25px;
+      animation: heartbeat 2s infinite ease-in-out;
+      font-weight: 900;
+      letter-spacing: 2.5px;
+      text-shadow: 3px 3px 8px #ff4f9d;
     }
-    @keyframes pulse {
+    @keyframes heartbeat {
       0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
+      50% { transform: scale(1.15); }
       100% { transform: scale(1); }
     }
     #typing-text {
-      font-size: 24px;
-      color: #d6336c;
-      margin: 10px auto 30px;
-      min-height: 50px;
-      max-width: 700px;
-      line-height: 1.4;
+      font-size: 26px;
+      color: #cc1f6a;
+      margin: 15px auto 40px;
+      min-height: 60px;
+      max-width: 720px;
+      line-height: 1.5;
       font-style: italic;
-      letter-spacing: 0.6px;
+      letter-spacing: 0.8px;
     }
     .calendar {
-      margin: 0 auto 50px;
-      max-width: 720px;
+      margin: 0 auto 60px;
+      max-width: 750px;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 15px;
+      gap: 18px;
     }
     .day-box {
-      flex: 0 1 calc(50% - 20px);
-      background-color: #fff5f8;
-      padding: 15px;
-      border-radius: 15px;
-      box-shadow: 0 0 15px #ffc2d1;
-      font-size: 18px;
-      color: #b30059;
-      line-height: 1.3;
+      flex: 0 1 calc(45% - 20px);
+      background-color: #fff0f6;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 18px #ffb2d9;
+      font-size: 20px;
+      color: #a3004e;
+      line-height: 1.4;
       cursor: default;
-      transition: transform 0.3s ease;
+      transition: transform 0.35s ease;
+      user-select: none;
     }
     .day-box:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 25px #ff80bf;
+      transform: scale(1.07);
+      box-shadow: 0 0 30px #ff8ac2;
     }
     button#openGiftBtn {
-      background: #ff4da6;
+      background: #ff3399;
       border: none;
-      padding: 15px 40px;
-      font-size: 22px;
+      padding: 18px 50px;
+      font-size: 24px;
       color: white;
-      border-radius: 30px;
+      border-radius: 35px;
       cursor: pointer;
-      box-shadow: 0 4px 15px #ff80bf;
-      transition: background 0.3s ease;
-      margin-bottom: 40px;
+      box-shadow: 0 5px 18px #ff66b3;
+      transition: background 0.35s ease;
+      margin-bottom: 50px;
     }
     button#openGiftBtn:hover {
-      background: #ff1a75;
+      background: #e60073;
     }
     #giftMessage {
-      font-size: 26px;
-      color: #b30059;
-      max-width: 700px;
+      font-size: 28px;
+      color: #a3004e;
+      max-width: 720px;
       margin: 0 auto;
-      line-height: 1.5;
-      letter-spacing: 0.6px;
+      line-height: 1.6;
+      letter-spacing: 0.8px;
       font-style: italic;
-      min-height: 80px;
+      min-height: 90px;
       user-select: none;
       white-space: pre-wrap;
     }
     .heart {
       position: fixed;
-      bottom: -50px;
-      width: 20px;
-      height: 20px;
-      background-color: #ff4da6;
+      bottom: -55px;
+      width: 22px;
+      height: 22px;
+      background-color: #ff3399;
       transform: rotate(45deg);
-      animation: floatUp 6s linear forwards;
-      opacity: 0.8;
+      animation: floatUp 6.5s linear forwards;
+      opacity: 0.85;
       z-index: 9999;
     }
     .heart::before,
     .heart::after {
       content: "";
       position: absolute;
-      width: 20px;
-      height: 20px;
-      background-color: #ff4da6;
+      width: 22px;
+      height: 22px;
+      background-color: #ff3399;
       border-radius: 50%;
     }
     .heart::before {
-      top: -10px;
+      top: -11px;
       left: 0;
     }
     .heart::after {
-      left: 10px;
+      left: 11px;
       top: 0;
     }
     @keyframes floatUp {
       0% {
         transform: translateY(0) rotate(45deg);
-        opacity: 0.8;
+        opacity: 0.85;
       }
       100% {
-        transform: translateY(-100vh) rotate(45deg);
+        transform: translateY(-110vh) rotate(45deg);
         opacity: 0;
       }
     }
   </style>
 </head>
 <body>
-  <h1>💘 365 Μέρες Αγάπης για τη Φωτεινή 💘</h1>
+  <h1>🎉 Χρόνια Πολλά, Φωτεινή! 🎉</h1>
   <div class="intro" id="beforeContent">
-    💭 Μέρα με τη μέρα, λεπτό με το λεπτό, μεγαλώνει η αγάπη μου για σένα...<br>
-    ✨ Η πιο όμορφη στιγμή πλησιάζει: Τα γενέθλιά σου!<br>
+    🌟 Η πιο ξεχωριστή μέρα πλησιάζει...<br>
+    🎈 Η γιορτή των γενεθλίων σου!<br>
     <div class="countdown" id="countdown"></div>
   </div>
   <div id="lockedContent" class="hidden">
-    <div class="boom">💥 Το Μεγάλο BOOM της Αγάπης 💥</div>
+    <div class="celebration">✨ Μια Μεγάλη Γιορτή Αγάπης ✨</div>
     <button id="openGiftBtn">🎁 Άνοιξε το Δώρο σου!</button>
     <div id="typing-text"></div>
     <div class="calendar" id="calendar"></div>
@@ -193,8 +194,8 @@
       const minutes = Math.floor((diff / (1000 * 60)) % 60);
       const seconds = Math.floor((diff / 1000) % 60);
       const text = days > 0 || hours > 0 || minutes > 0 || seconds > 0
-        ? `🎂 Απομένουν ${days} μέρες, ${hours} ώρες, ${minutes} λεπτά και ${seconds} δευτερόλεπτα για τα γενέθλια της Φωτεινής! 💝`
-        : `🎉 Χρόνια πολλά, Φωτεινή μου! Η καρδιά μου ανήκει σε σένα 💖`;
+        ? `🎂 Απομένουν ${days} μέρες, ${hours} ώρες, ${minutes} λεπτά και ${seconds} δευτερόλεπτα για τα γενέθλια της Φωτεινής! 🎉`
+        : `🎉 Χρόνια Πολλά, Φωτεινή μου! Με όλη μου την αγάπη 💖`;
       document.getElementById("countdown").textContent = text;
       if (days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0) {
         document.getElementById("lockedContent").classList.remove("hidden");
@@ -221,11 +222,11 @@
       const calendar = document.getElementById("calendar");
       calendar.innerHTML = "";
       const days = [
-        "1η μέρα που γνωριστήκαμε στο Roblox 🕹️",
-        "Μετά πήγαμε στο YouTube 🎥",
-        "Ύστερα TikTok 💃",
-        "Τώρα Viber και πάντα μαζί 💬",
-        "365 στιγμές, 365 λόγοι που σε αγαπώ 💖"
+        "Η μέρα που γιορτάζουμε εσένα 🎂",
+        "Οι όμορφες στιγμές που μοιραζόμαστε 💕",
+        "Τα όνειρα που χτίζουμε μαζί ✨",
+        "Η αγάπη που μεγαλώνει κάθε χρόνο ❤️",
+        "Ένα νέο κεφάλαιο γεμάτο ευχές και χαρές 🎉"
       ];
       days.forEach(text => {
         const box = document.createElement("div");
@@ -247,7 +248,7 @@
     }
 
     document.getElementById("openGiftBtn").addEventListener("click", () => {
-      const message = "Χρόνια Πολλά, αγάπη μου 💗\n\nΣε ευχαριστώ για κάθε στιγμή.\nΑυτό το site είναι μόνο ένα μικρό δείγμα του πόσο σε σκέφτομαι 💝";
+      const message = "Χρόνια Πολλά, αγάπη μου! 💗\n\nΣε ευχαριστώ για κάθε όμορφη στιγμή.\nΑυτό το δώρο είναι η καρδιά μου σε ψηφιακή μορφή! 💝";
       typeGiftMessage(message, "typing-text");
       createCalendar();
     });
