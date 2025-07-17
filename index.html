@@ -162,7 +162,7 @@
   </style>
 </head>
 <body>
-  <audio id="backgroundMusic" autoplay loop muted>
+  <audio id="backgroundMusic" autoplay loop>
     <source src="Saynnn.mp3" type="audio/mpeg">
     Το πρόγραμμα περιήγησής σας δεν υποστηρίζει την αναπαραγωγή ήχου.
   </audio>
@@ -173,12 +173,14 @@
     🎈 Η γιορτή των γενεθλίων σου!<br>
     <div class="countdown" id="countdown"></div>
   </div>
+
   <div id="lockedContent" class="hidden">
     <div class="celebration">✨ Μια Μεγάλη Γιορτή Αγάπης ✨</div>
     <button id="openGiftBtn">🎁 Άνοιξε το Δώρο σου!</button>
     <div id="typing-text"></div>
     <div class="calendar" id="calendar"></div>
   </div>
+
   <script>
     const birthdayMonth = 10;
     const birthdayDay = 20;
@@ -252,9 +254,21 @@
       }, 300);
     }
 
+    const music = document.getElementById("backgroundMusic");
+
+    document.addEventListener("click", () => {
+      music.play().catch(err => {
+        console.warn("Αδυναμία αυτόματης αναπαραγωγής ήχου:", err);
+      });
+    }, { once: true });
+
+    document.addEventListener("touchstart", () => {
+      music.play().catch(err => {
+        console.warn("Αδυναμία αυτόματης αναπαραγωγής ήχου:", err);
+      });
+    }, { once: true });
+
     document.getElementById("openGiftBtn").addEventListener("click", () => {
-      const music = document.getElementById("backgroundMusic");
-      music.muted = false;
       music.play();
       const message = "Χρόνια Πολλά, αγάπη μου! 💗\n\nΣε ευχαριστώ για κάθε όμορφη στιγμή.\nΑυτό το δώρο είναι η καρδιά μου σε ψηφιακή μορφή! 💝";
       typeGiftMessage(message, "typing-text");
