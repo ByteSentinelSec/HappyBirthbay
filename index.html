@@ -100,8 +100,10 @@
       transition: background 0.35s ease;
     }
 
-    #openGiftBtn:hover {
-      background: #e60073;
+    #openGiftBtn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      box-shadow: none;
     }
 
     .heart {
@@ -155,7 +157,7 @@
 
   <div class="celebration">✨ Μια Γιορτή Αγάπης ✨</div>
 
-  <button id="openGiftBtn">🎁 Άνοιξε το Δώρο σου</button>
+  <button id="openGiftBtn" disabled>🎁 Άνοιξε το Δώρο σου</button>
 
   <div id="typing-text"></div>
 
@@ -164,6 +166,11 @@
   <script>
     const birthdayMonth = 10;
     const birthdayDay = 20;
+
+    function isBirthdayToday() {
+      const now = new Date();
+      return now.getDate() === birthdayDay && (now.getMonth() + 1) === birthdayMonth;
+    }
 
     function getNextBirthdayDate() {
       const now = new Date();
@@ -180,10 +187,15 @@
       const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
       const minutes = Math.floor((diff / (1000 * 60)) % 60);
       const seconds = Math.floor((diff / 1000) % 60);
-      const text = days > 0 || hours > 0 || minutes > 0 || seconds > 0
-        ? `🎂 Απομένουν ${days} μέρες, ${hours} ώρες, ${minutes} λεπτά και ${seconds} δευτερόλεπτα για τα γενέθλιά σου!`
-        : `🎉 Σήμερα είναι η μέρα σου! Χρόνια Πολλά, Φωτεινή μου 💖`;
+      const text = isBirthdayToday()
+        ? `🎉 Σήμερα είναι η μέρα σου! Χρόνια Πολλά, Φωτεινή μου 💖`
+        : `🎂 Απομένουν ${days} μέρες, ${hours} ώρες, ${minutes} λεπτά και ${seconds} δευτερόλεπτα για τα γενέθλιά σου!`;
       document.getElementById("countdown").textContent = text;
+
+      const btn = document.getElementById("openGiftBtn");
+      if (isBirthdayToday()) {
+        btn.disabled = false;
+      }
     }
 
     function typeGiftMessage(text, elementId, speed = 60) {
@@ -230,7 +242,7 @@
     }
 
     document.getElementById("openGiftBtn").addEventListener("click", () => {
-      const message = "Χρόνια Πολλά, αγάπη μου! 💗\n\nΣε ευχαριστώ για κάθε γλυκιά στιγμή.\nΑυτό το δώρο είναι γεμάτο καρδιές και συναισθήματα! 💝";
+      const message = "Χρόνια Πολλά, αγάπη μου! 💗 Σε ευχαριστώ για κάθε γλυκιά στιγμή. Αυτό το δώρο είναι γεμάτο καρδιές και συναισθήματα! 💝";
       typeGiftMessage(message, "typing-text");
       createCalendar();
       startFloatingHearts();
