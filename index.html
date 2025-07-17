@@ -44,6 +44,7 @@
     }
     #lockedContent {
       margin-top: 50px;
+      display: none;
     }
     .celebration {
       font-size: 34px;
@@ -213,7 +214,7 @@
     🎈 Η γιορτή των γενεθλίων σου!<br>
     <div class="countdown" id="countdown"></div>
   </div>
-  <div id="lockedContent" class="hidden">
+  <div id="lockedContent">
     <div class="celebration">✨ Μια Μεγάλη Γιορτή Αγάπης ✨</div>
     <button id="openGiftBtn">🎁 Άνοιξε το Δώρο σου!</button>
     <div id="typing-text"></div>
@@ -232,6 +233,11 @@
       return next;
     }
 
+    function isBirthdayToday() {
+      const now = new Date();
+      return now.getDate() === birthdayDay && (now.getMonth() + 1) === birthdayMonth;
+    }
+
     function updateCountdown() {
       const now = new Date();
       const birthday = getNextBirthdayDate();
@@ -240,16 +246,46 @@
       const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
       const minutes = Math.floor((diff / (1000 * 60)) % 60);
       const seconds = Math.floor((diff / 1000) % 60);
-      const text = days > 0 || hours > 0 || minutes > 0 || seconds > 0
+      const countdownText = days > 0 || hours > 0 || minutes > 0 || seconds > 0
         ? `🎂 Απομένουν ${days} μέρες, ${hours} ώρες, ${minutes} λεπτά και ${seconds} δευτερόλεπτα για τα γενέθλια της Φωτεινής! 🎉`
         : `🎉 Χρόνια Πολλά, Φωτεινή μου! Με όλη μου την αγάπη 💖`;
-      document.getElementById("countdown").textContent = text;
-      if (days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0) {
-        document.getElementById("lockedContent").classList.remove("hidden");
-        document.getElementById("beforeContent").classList.add("hidden");
-        document.getElementById("openGiftBtn").classList.add("active");
-        startFloatingHearts();
+      document.getElementById("countdown").textContent = countdownText;
+
+      if (isBirthdayToday()) {
+        document.getElementById("lockedContent").style.display = "block";
+        document.getElementById("beforeContent").style.display = "none";
+        const btn = document.getElementById("openGiftBtn");
+        btn.classList.add("active");
+        btn.style.cursor = "pointer";
+        startFloatingHearts(true);
+      } else {
+        document.getElementById("lockedContent").style.display = "none";
+        document.getElementById("beforeContent").style.display = "block";
+        const btn = document.getElementById("openGiftBtn");
+        btn.classList.remove("active");
+        btn.style.cursor = "default";
+        startFloatingHearts(false);
       }
+    }
+
+    let heartsInterval = null;
+    function startFloatingHearts(active = false) {
+      if (heartsInterval) clearInterval(heartsInterval);
+      heartsInterval = setInterval(() => {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = 4 + Math.random() * 3 + "s";
+        if (!active) {
+          heart.style.backgroundColor = "gray";
+          heart.style.opacity = "0.2";
+          heart.style.pointerEvents = "none";
+          heart.style.filter = "grayscale(100%)";
+          heart.style.animationName = "floatUp";
+        }
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 7000);
+      }, 300);
     }
 
     function typeGiftMessage(text, elementId, speed = 70) {
@@ -282,17 +318,6 @@
         box.textContent = text;
         calendar.appendChild(box);
       });
-    }
-
-    function startFloatingHearts() {
-      setInterval(() => {
-        const heart = document.createElement("div");
-        heart.className = "heart";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.animationDuration = 4 + Math.random() * 3 + "s";
-        document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 7000);
-      }, 300);
     }
 
     function triggerFireworks() {
@@ -331,6 +356,7 @@
         "Σε αγαπάω περισσότερο απ' όσο φαντάζεσαι 💘"
       ];
       const container = document.getElementById("loveCards");
+      container.innerHTML = "";
       cards.forEach(text => {
         const div = document.createElement("div");
         div.className = "love-card";
@@ -344,14 +370,13 @@
     }
 
     document.getElementById("openGiftBtn").addEventListener("click", () => {
-      const message = "Χρόνια Πολλά, αγάπη μου! 💗 Σε ευχαριστώ για κάθε γλυκιά στιγμή. Αυτό το δώρο είναι γεμάτο καρδιές και συναισθήματα! 💝";
-      typeGiftMessage(message, "typing-text");
-      showLoveLetter();
-      createCalendar();
-      createLoveCards();
       triggerFireworks();
+      showLoveLetter();
+      createLoveCards();
+      typeGiftMessage("Ένα δώρο γεμάτο καρδιές και αγάπη μόνο για σένα, Φωτεινή! 💖", "typing-text");
     });
 
+    // Ξεκινάει ο χρονομετρητής και ελέγχει ημερομηνία
     updateCountdown();
     setInterval(updateCountdown, 1000);
   </script>
